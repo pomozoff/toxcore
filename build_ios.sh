@@ -81,11 +81,13 @@ LIB_FILES=( \
             libtoxencryptsave.a \
           )
 
+mkdir -p "${BUILD_PATH}/lib"
+
 for INDEX in "${!LIB_FILES[@]}"; do
     LIB_FILE="${LIB_FILES[$INDEX]}"
     lipo -create "${BUILD_PATH}/${DEVICE_ARM}/lib/${LIB_FILE}" \
                  "${BUILD_PATH}/${DEVICE_ARM64}/lib/${LIB_FILE}" \
                  "${BUILD_PATH}/${SIMULATOR_I386}/lib/${LIB_FILE}" \
                  "${BUILD_PATH}/${SIMULATOR_X86_64}/lib/${LIB_FILE}" \
-         -output "${BUILD_PATH}/${LIB_FILE}"
+         -output "${BUILD_PATH}/lib/${LIB_FILE}"
 done
