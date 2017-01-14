@@ -1,3 +1,9 @@
 [submodule "submodules/libsodium"]
 	path = submodules/libsodium
 	url = https://github.com/jedisct1/libsodium.git
+[submodule "submodules/libopus"]
+	path = submodules/libopus
+	url = https://git.xiph.org/opus.git
+[submodule "submodules/libvpx"]
+	path = submodules/libvpx
+	url = https://chromium.googlesource.com/webm/libvpx
