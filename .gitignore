@@ -74,3 +74,4 @@ cscope.files
 
 # rpm
 tox.spec
+build_ios
