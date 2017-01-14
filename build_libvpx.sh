@@ -18,7 +18,7 @@ dobuild() {
     export CXXFLAGS="${HOST_FLAGS} ${OPT_FLAGS}"
     export LDFLAGS="${HOST_FLAGS} --specs=nosys.specs"
 
-    ./configure --target=${CHOST} \
+    ./configure --target=${CTARGET} \
                 --prefix="${BUILD_PATH}/${PREFIX}" \
                 --enable-static \
                 --disable-shared \
@@ -70,27 +70,27 @@ dobuild() {
 SDK="iphoneos"
 ARCH_FLAGS="-arch armv7"
 HOST_FLAGS="${ARCH_FLAGS} -miphoneos-version-min=${MIN_IOS_VERSION} -isysroot $(xcrun -sdk ${SDK} --show-sdk-path)"
-CHOST="armv7-darwin-gcc"
+CTARGET="armv7-darwin-gcc"
 PREFIX="device_arm"
 dobuild
 
 SDK="iphoneos"
 ARCH_FLAGS="-arch arm64"
 HOST_FLAGS="${ARCH_FLAGS} -miphoneos-version-min=${MIN_IOS_VERSION} -isysroot $(xcrun -sdk ${SDK} --show-sdk-path)"
-CHOST="arm64-darwin-gcc"
+CTARGET="arm64-darwin-gcc"
 PREFIX="device_arm64"
 dobuild
 
 SDK="iphonesimulator"
 ARCH_FLAGS="-arch i386"
 HOST_FLAGS="${ARCH_FLAGS} -mios-simulator-version-min=${MIN_IOS_VERSION} -isysroot $(xcrun -sdk ${SDK} --show-sdk-path)"
-CHOST="x86-iphonesimulator-gcc"
+CTARGET="x86-iphonesimulator-gcc"
 PREFIX="simulator_i386"
 dobuild
 
 SDK="iphonesimulator"
 ARCH_FLAGS="-arch x86_64"
 HOST_FLAGS="${ARCH_FLAGS} -mios-simulator-version-min=${MIN_IOS_VERSION} -isysroot $(xcrun -sdk ${SDK} --show-sdk-path)"
-CHOST="x86_64-iphonesimulator-gcc"
+CTARGET="x86_64-iphonesimulator-gcc"
 PREFIX="simulator_x86_64"
 dobuild
