@@ -6,9 +6,6 @@ if [ "$#" -lt 2 ]; then
 fi
 
 BUILD_PATH="${1}"
-if [ -d "${BUILD_PATH}" ]; then
-    rm -fr "${BUILD_PATH}"
-fi
 mkdir -p "${BUILD_PATH}"
 
 DEPS_PATH="${2}"
