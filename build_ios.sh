@@ -91,3 +91,5 @@ for INDEX in "${!LIB_FILES[@]}"; do
                  "${BUILD_PATH}/${SIMULATOR_X86_64}/lib/${LIB_FILE}" \
          -output "${BUILD_PATH}/lib/${LIB_FILE}"
 done
+
+cp -r "${BUILD_PATH}/${DEVICE_ARM}/include" "${BUILD_PATH}/"
