@@ -5,9 +5,6 @@ if [ "$#" -lt 1  ]; then
     exit -1
 fi
 
-CURRENT_DIR=$(pwd)
-cd ./submodules/libopus
-
 OPT_FLAGS="-O3"
 MAKE_JOBS=$(sysctl -n hw.ncpu)
 MIN_IOS_VERSION="9.0"
@@ -56,5 +53,3 @@ HOST_FLAGS="${ARCH_FLAGS} -mios-simulator-version-min=${MIN_IOS_VERSION} -isysro
 CHOST="x86_64-apple-darwin"
 PREFIX="simulator_x86_64"
 dobuild
-
-cd "${CURRENT_DIR}"
