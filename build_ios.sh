@@ -1,18 +1,12 @@
 #!/bin/bash -e -x
 
-if [ "$#" -lt 2 ]; then
-    echo "Usage: $0 <Build path> <Dependencies path>"
+if [ "$#" -lt 1 ]; then
+    echo "Usage: $0 <Build path>"
     exit -1
 fi
 
 BUILD_PATH="${1}"
 mkdir -p "${BUILD_PATH}"
-
-DEPS_PATH="${2}"
-if [ ! -d "${DEPS_PATH}" ]; then
-	echo "There is no directory ${DEPS_PATH}"
-	exit -1
-fi
 
 OPT_FLAGS="-O3"
 MAKE_JOBS=$(sysctl -n hw.ncpu)
@@ -30,7 +24,7 @@ dobuild() {
     export CFLAGS="${HOST_FLAGS} ${OPT_FLAGS}"
     export CXXFLAGS="${CFLAGS}"
     export LDFLAGS="${HOST_FLAGS}"
-    export PKG_CONFIG_PATH="${DEPS_PATH}/${PREFIX}/lib/pkgconfig"
+    export PKG_CONFIG_PATH="${BUILD_PATH}/${PREFIX}/lib/pkgconfig"
 
     autoreconf -i
     ./configure --host=${CHOST} \
@@ -38,8 +32,8 @@ dobuild() {
 				--enable-static \
 				--disable-shared \
 				--enable-av \
-				--with-libsodium-headers="${DEPS_PATH}/${PREFIX}/include" \
-				--with-libsodium-libs="${DEPS_PATH}/${PREFIX}/lib"
+				--with-libsodium-headers="${BUILD_PATH}/${PREFIX}/include" \
+				--with-libsodium-libs="${BUILD_PATH}/${PREFIX}/lib"
 
     make clean
     make -j${MAKE_JOBS}
@@ -79,9 +73,12 @@ LIB_FILES=( \
             libtoxcore.a \
             libtoxdns.a \
             libtoxencryptsave.a \
+            libopus.a \
+            libsodium.a \
+            libvpx.a \
           )
 
-RESULT_DIR="${BUILD_PATH}/.."
+mkdir -p "${BUILD_PATH}/lib"
 
 for INDEX in "${!LIB_FILES[@]}"; do
     LIB_FILE="${LIB_FILES[$INDEX]}"
@@ -89,7 +86,7 @@ for INDEX in "${!LIB_FILES[@]}"; do
                  "${BUILD_PATH}/${DEVICE_ARM64}/lib/${LIB_FILE}" \
                  "${BUILD_PATH}/${SIMULATOR_I386}/lib/${LIB_FILE}" \
                  "${BUILD_PATH}/${SIMULATOR_X86_64}/lib/${LIB_FILE}" \
-         -output "${RESULT_DIR}/lib/${LIB_FILE}"
+         -output "${BUILD_PATH}/lib/${LIB_FILE}"
 done
 
-cp -r "${BUILD_PATH}/${DEVICE_ARM}/include" "${RESULT_DIR}/"
+cp -r "${BUILD_PATH}/${DEVICE_ARM}/include" "${BUILD_PATH}/"
